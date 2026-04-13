@@ -80,12 +80,28 @@ class SwapPriceHandler
   end
 
   def fetch_quote_token_price(quote_token_address)
-    Rails.cache.fetch(cache_key_for(quote_token_address), expires_in: 60.seconds) do
-      @client.fetch_token_usd_price(network: @network, token_address: quote_token_address)
-    end
+    fresh_key = cache_key_for(quote_token_address)
+    stale_key = stale_cache_key_for(quote_token_address)
+
+    fresh_price = Rails.cache.read(fresh_key)
+    return fresh_price if fresh_price
+
+    price = @client.fetch_token_usd_price(network: @network, token_address: quote_token_address)
+    Rails.cache.write(fresh_key, price, expires_in: 60.seconds)
+    Rails.cache.write(stale_key, price, expires_in: 24.hours)
+    price
+  rescue GeckoTerminalClient::RateLimitedError
+    stale_price = Rails.cache.read(stale_key)
+    return stale_price if stale_price
+
+    raise
   end
 
   def cache_key_for(quote_token_address)
     "gecko_terminal/token_price/#{@network}/#{quote_token_address}"
+  end
+
+  def stale_cache_key_for(quote_token_address)
+    "gecko_terminal/token_price/stale/#{@network}/#{quote_token_address}"
   end
 end
