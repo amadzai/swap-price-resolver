@@ -48,14 +48,14 @@ paths:
           description: Token address to price
           schema:
             type: string
-          example: 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+          example: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
         - in: query
           name: tx_hash
           required: true
           description: Transaction hash of the swap
           schema:
             type: string
-          example: 0x6dc703bc7c2f3ec788c9fedbfbfa55378d309793a212d469611588152a9e9507
+          example: "0x6dc703bc7c2f3ec788c9fedbfbfa55378d309793a212d469611588152a9e9507"
         - in: query
           name: swap_log_index
           required: true
@@ -70,7 +70,7 @@ paths:
           description: Pool contract address
           schema:
             type: string
-          example: 0x60594a405d53811d3bc4766596efd80fd545a270
+          example: "0x60594a405d53811d3bc4766596efd80fd545a270"
       responses:
         "200":
           description: Swap price resolved successfully
