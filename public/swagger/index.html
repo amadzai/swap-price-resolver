@@ -20,25 +20,11 @@
       color: #9ca3af;
     }
 
-    .swagger-ui .info .title,
-    .swagger-ui .info h1,
-    .swagger-ui .info h2,
-    .swagger-ui .info h3,
-    .swagger-ui .opblock-tag,
-    .swagger-ui .opblock .opblock-summary-path,
-    .swagger-ui .opblock .opblock-summary-description,
-    .swagger-ui .parameter__name,
-    .swagger-ui .response-col_status {
+    .swagger-ui :is(.info .title, .info h1, .info h2, .info h3, .opblock-tag, .opblock .opblock-summary-path, .opblock .opblock-summary-description, .parameter__name, .response-col_status) {
       color: #fff;
     }
 
-    .swagger-ui .info p,
-    .swagger-ui .info li,
-    .swagger-ui .markdown p,
-    .swagger-ui .markdown li,
-    .swagger-ui .parameter__type,
-    .swagger-ui .response-col_description__inner p,
-    .swagger-ui .opblock-description-wrapper p {
+    .swagger-ui :is(.info p, .info li, .markdown p, .markdown li, .parameter__type, .response-col_description__inner p, .opblock-description-wrapper p) {
       color: #9ca3af;
     }
 
@@ -49,8 +35,7 @@
       padding: 12px 16px;
     }
 
-    .swagger-ui .info a,
-    .swagger-ui .info a:visited {
+    .swagger-ui .info :is(a, a:visited) {
       color: #9012fe;
     }
 
@@ -67,62 +52,32 @@
       border: 1px solid #222222;
     }
 
-    .swagger-ui .opblock .opblock-section-header h4,
-    .swagger-ui .opblock .opblock-section-header label {
-      color: #fff !important;
-    }
-
-    .swagger-ui .opblock .try-out__btn,
-    .swagger-ui .opblock .opblock-section-header h4,
-    .swagger-ui .opblock .opblock-section-header .tab-header .tab-item,
-    .swagger-ui .opblock .responses-inner h4,
-    .swagger-ui .opblock .parameters-col_description,
-    .swagger-ui .opblock .response-col_description,
-    .swagger-ui .opblock .response-col_status,
-    .swagger-ui .opblock .parameter__name,
-    .swagger-ui .opblock .parameter__type {
+    .swagger-ui .opblock :is(.try-out__btn, .opblock-section-header h4, .opblock-section-header .tab-header .tab-item, .responses-inner h4, .parameters-col_description, .response-col_description, .response-col_status, .parameter__name, .parameter__type) {
       color: #9ca3af !important;
     }
 
-    .swagger-ui .opblock input[type=text],
-    .swagger-ui .opblock input[type=password],
-    .swagger-ui .opblock input[type=search],
-    .swagger-ui .opblock input[type=email],
-    .swagger-ui .opblock textarea,
-    .swagger-ui .opblock select {
+    .swagger-ui .opblock :is(.parameters-col_name, .parameters-col_description, .parameters-col_schema) {
+      color: #9ca3af !important;
+    }
+
+    .swagger-ui .opblock :is(input[type=text], input[type=password], input[type=search], input[type=email], textarea, select) {
       background: #111111 !important;
     }
 
-    .swagger-ui .opblock.is-open input[type=text]:not([disabled]):not([readonly]),
-    .swagger-ui .opblock.is-open input[type=password]:not([disabled]):not([readonly]),
-    .swagger-ui .opblock.is-open input[type=search]:not([disabled]):not([readonly]),
-    .swagger-ui .opblock.is-open input[type=email]:not([disabled]):not([readonly]),
-    .swagger-ui .opblock.is-open textarea:not([disabled]):not([readonly]),
+    .swagger-ui .opblock.is-open :is(input[type=text], input[type=password], input[type=search], input[type=email], textarea):not([disabled]):not([readonly]),
     .swagger-ui .opblock.is-open select:not([disabled]) {
       color: #fff !important;
     }
 
-    .swagger-ui section.models h4,
-    .swagger-ui section.models .model-title,
-    .swagger-ui section.models .model-title__text,
-    .swagger-ui section.models .property,
-    .swagger-ui section.models .property.primitive,
-    .swagger-ui section.models .model,
-    .swagger-ui section.models .model-box {
+    .swagger-ui section.models :is(h4, .model-title, .model-title__text, .property, .property.primitive, .model, .model-box) {
       color: #fff !important;
     }
 
-    .swagger-ui section.models .model-container,
-    .swagger-ui section.models .model-box {
+    .swagger-ui section.models :is(.model-container, .model-box) {
       background: #111111 !important;
     }
 
-    .swagger-ui svg,
-    .swagger-ui .arrow,
-    .swagger-ui .expand-operation svg,
-    .swagger-ui .opblock-tag svg,
-    .swagger-ui .model-toggle::after,
-    .swagger-ui .opblock-control-arrow svg {
+    .swagger-ui :is(svg, .arrow, .expand-operation svg, .opblock-tag svg, .model-toggle::after, .opblock-control-arrow svg) {
       fill: #fff !important;
       color: #fff !important;
       stroke: #fff !important;
