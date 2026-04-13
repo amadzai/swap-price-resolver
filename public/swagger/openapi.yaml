@@ -10,25 +10,11 @@ info:
     As a result, valid historical transactions may not be found.
 
     ## Data Freshness
-    All endpoints listed below are cached for 1 minute.
+    Responses are cached for 1 minute.
     Data is typically updated as fast as 2-3 seconds after a transaction is confirmed on-chain, subject to network availability.
 tags:
-  - name: Health
   - name: Swap Price
 paths:
-  /up:
-    get:
-      tags: [Health]
-      summary: Health check endpoint
-      operationId: healthCheck
-      responses:
-        "200":
-          description: App is healthy
-          content:
-            text/html:
-              schema:
-                type: string
-              example: OK
   /swap-price:
     get:
       tags: [Swap Price]
