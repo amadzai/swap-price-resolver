@@ -37,6 +37,12 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
+  # Minitest mocking/stubbing support
+  gem "minitest-mock"
+
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Test coverage reports powered by Ruby's Coverage stdlib
+  gem "simplecov", require: false
 end
