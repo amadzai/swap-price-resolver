@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Swap Price Resolver API
+  version: 1.0.0
+  description: |
+    Resolve live swap price and base token USD price from GeckoTerminal data.
+
+    ## Live Lookup Limitations
+    This API resolves swaps using GeckoTerminal's recent pool trades endpoint, which is limited to the past 24 hours and the latest 300 trades.
+    As a result, valid historical transactions may not be found.
+
+    ## Data Freshness
+    All endpoints listed below are cached for 1 minute.
+    Data is typically updated as fast as 2-3 seconds after a transaction is confirmed on-chain, subject to network availability.
+tags:
+  - name: Health
+  - name: Swap Price
+paths:
+  /up:
+    get:
+      tags: [Health]
+      summary: Health check endpoint
+      operationId: healthCheck
+      responses:
+        "200":
+          description: App is healthy
+          content:
+            text/html:
+              schema:
+                type: string
+              example: OK
+  /swap-price:
+    get:
+      tags: [Swap Price]
+      summary: Resolve swap price from live GeckoTerminal trades
+      operationId: getSwapPrice
+      parameters:
+        - in: query
+          name: network
+          required: true
+          description: GeckoTerminal network id (e.g. eth, base)
+          schema:
+            type: string
+          example: eth
+        - in: query
+          name: base_token_address
+          required: true
+          description: Token address to price
+          schema:
+            type: string
+          example: 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+        - in: query
+          name: tx_hash
+          required: true
+          description: Transaction hash of the swap
+          schema:
+            type: string
+          example: 0x6dc703bc7c2f3ec788c9fedbfbfa55378d309793a212d469611588152a9e9507
+        - in: query
+          name: swap_log_index
+          required: true
+          description: Log index of the swap within the transaction
+          schema:
+            type: integer
+            minimum: 0
+          example: 318
+        - in: query
+          name: pool_address
+          required: true
+          description: Pool contract address
+          schema:
+            type: string
+          example: 0x60594a405d53811d3bc4766596efd80fd545a270
+      responses:
+        "200":
+          description: Swap price resolved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SwapPriceResponse"
+        "404":
+          description: Swap not found in live trade window
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: Swap not found for tx_hash=0x6dc703bc7c2f3ec788c9fedbfbfa55378d309793a212d469611588152a9e9507 swap_log_index=1.
+        "422":
+          description: Missing required params or invalid request values
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Missing required params: base_token_address, tx_hash"
+        "502":
+          description: Upstream API error or upstream payload parse error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: GeckoTerminal request failed with HTTP 502.
+        "503":
+          description: Upstream rate limited and no stale cache available
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: GeckoTerminal rate limit reached.
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+    SwapPriceData:
+      type: object
+      required:
+        - network
+        - pool_address
+        - tx_hash
+        - swap_log_index
+        - block_timestamp
+        - base_token_address
+        - quote_token_address
+        - swap_price_quote_in_base
+        - base_token_usd_price
+        - quote_token_usd_price
+        - quote_token_price_source
+        - quote_token_price_observed_at
+        - source
+      properties:
+        network:
+          type: string
+        pool_address:
+          type: string
+        tx_hash:
+          type: string
+        swap_log_index:
+          type: integer
+        block_timestamp:
+          type: string
+          format: date-time
+        base_token_address:
+          type: string
+        quote_token_address:
+          type: string
+        swap_price_quote_in_base:
+          type: string
+          description: How much quote token equals 1 unit of base token
+        base_token_usd_price:
+          type: string
+        quote_token_usd_price:
+          type: string
+        quote_token_price_source:
+          type: string
+          format: uri
+        quote_token_price_observed_at:
+          type: string
+          format: date-time
+        source:
+          type: string
+          enum: [live]
+    SwapPriceResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SwapPriceData"
