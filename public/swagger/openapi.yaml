@@ -10,8 +10,9 @@ info:
     As a result, valid historical transactions may not be found.
 
     ## Data Freshness
-    Responses are cached for 1 minute.
-    Data is typically updated as fast as 2-3 seconds after a transaction is confirmed on-chain, subject to network availability.
+    Each pool trades request loads the latest list from GeckoTerminal.
+    Quote token USD prices from GeckoTerminal are cached for 1 minute.
+    When rate limits are hit, the service may use a stored quote price.
 tags:
   - name: Swap Price
 paths:
