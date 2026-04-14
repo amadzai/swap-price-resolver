@@ -65,6 +65,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SwapPriceResponse"
+              example:
+                data:
+                  network: eth
+                  pool_address: "0x60594a405d53811d3bc4766596efd80fd545a270"
+                  tx_hash: "0x6dc703bc7c2f3ec788c9fedbfbfa55378d309793a212d469611588152a9e9507"
+                  swap_log_index: 318
+                  block_timestamp: "2024-06-12T14:32:11.000Z"
+                  base_token_address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+                  quote_token_address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                  swap_price_quote_in_base: "1823.45678901234567890"
+                  base_token_usd_price: "1823.45678901234567890"
+                  quote_token_usd_price: "1.00023456789012345678"
+                  quote_token_price_source: "https://api.geckoterminal.com/api/v2/simple/networks/eth/token_price/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                  quote_token_price_observed_at: "2026-04-14T08:27:15.779Z"
+                  source: live
         "404":
           description: Swap not found in live trade window
           content:
