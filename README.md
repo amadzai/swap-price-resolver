@@ -2,7 +2,7 @@
 
 An API service that resolves swap price from GeckoTerminal pool swaps by transaction hash and log index, with caching on quote-token prices to work around GT free tier rate limits.
 
----
+> Originally developed on GitLab, for full history see [Swap Price Resolver | GitLab](https://gitlab.com/amadzai/swap-price-resolver)
 
 ## Setup and Dependencies
 
@@ -31,16 +31,12 @@ For full dependency details, see [`Gemfile`](Gemfile)
 3. Open the API swagger docs:
    - [http://localhost:3000/swagger](http://localhost:3000/swagger)
 
----
-
 ## Caching Strategy
 
 Only **quote token USD prices** from GeckoTerminal are cached. **Pool trades** are read on every request (see [`SwapPriceHandler`](app/services/swap_price_handler.rb)).
 
 - **Fresh cache:** After a successful `token_price` call, the result is stored under a per-network, per-quote-token key for **1 minute**. A cache hit skips the upstream price request.
 - **Stale cache:** The same payload is also written to a separate stale key for **24 hours**. During normal operation this entry is not read; it exists so token-price requests can fall back when GeckoTerminal is rate limiting (see **Rate limits** below).
-
----
 
 ## Rate limits
 
@@ -51,15 +47,11 @@ GeckoTerminal applies its own quotas (**10 requests per minute** on the free tie
 
 Other upstream or parsing failures are returned as **502** (see [`SwapPricesController`](app/controllers/swap_prices_controller.rb)).
 
----
-
 ## Flowchart
 
 This diagram shows the main request flow for the swap price resolver.
 
 ![Resolve swap price flow](docs/resolve-swap-price-flow.png)
-
----
 
 ## Testing
 
@@ -78,8 +70,6 @@ bin/rails test
 ### Test Coverage
 
 After running tests, open the coverage report at [`coverage/index.html`](coverage/index.html).
-
----
 
 ## Deployed URL
 
