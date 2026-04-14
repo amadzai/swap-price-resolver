@@ -47,7 +47,7 @@ Only **quote token USD prices** from GeckoTerminal are cached. **Pool trades** a
 GeckoTerminal applies its own quotas (**10 requests per minute** on the free tier).
 
 - **Quote token USD price (`token_price`):** If the upstream call is rate limited, the service tries the **stale** cached price (see **Caching strategy**). If one exists, the request **succeeds** with that snapshot. If not, the API returns **503** with an error body.
-- **Pool trades:** Trades are not cached. If loading pool trades is rate limited, there is **no** stale fallback; the API returns **503** with an error body.
+- **Pool trades:** Trades are not cached because GeckoTerminal only exposes **recent activity** (the **last 24 hours** and the **latest 300 trades**), and we want each request to read the **current** list so swap lookup matches what is available upstream. If loading pool trades is rate limited, there is **no** stale fallback; the API returns **503** with an error body.
 
 Other upstream or parsing failures are returned as **502** (see [`SwapPricesController`](app/controllers/swap_prices_controller.rb)).
 
